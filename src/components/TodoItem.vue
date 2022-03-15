@@ -1,6 +1,7 @@
 <template>
   <li class="todo-item">
     <span :style="{ textDecoration: textStyle }">{{ message }}</span>
+    <span>{{ newTodoDeadline }}</span>
     <div class="functional-buttons">
       <button class="done-button" @click="$emit('setTodoItemStatus')"><p>v</p></button>
       <button class="remove-button" @click="$emit('remove')"><p>-</p></button>
@@ -17,13 +18,21 @@ export default Vue.extend({
     },
     isDone: {
       type: Boolean
+    },
+    newTodoDeadline: {
+      type: String
+    }
+  },
+  data() {
+    return {
+      superName: 'Michal'
     }
   },
   computed: {
     textStyle: function() {
       return this.isDone ? 'line-through' : 'none'
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
@@ -36,7 +45,7 @@ export default Vue.extend({
   justify-content: space-between;
   position: relative;
   padding: 10px 5px;
-  box-shadow: 0 3px 7px #888888;
+  box-shadow: 0 2px 5px #888888;
   min-height: 30px;
   &:hover {
     background-color: #e0e4d2;

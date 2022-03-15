@@ -1,17 +1,22 @@
 <template>
   <div id="myTodo">
-    <form @submit.prevent="addNewTodo">
-      <label for="new-todo">TODO</label>
-      <input
+    <section class="form">
+      <img :src="images.bckgroundImg"/>
+      <header>
+        <label for="new-todo">TODO</label>
+        <MyClock/>
+      </header>
+      <textarea
         v-model="newTodoMessage"
         id="new-todo"
         placeholder=". . ."
-      >
-      <button class="icon-btn add-btn">
+      ></textarea>
+      <button class="icon-btn add-btn" @click="addNewTodo">
         <div class="add-icon"></div>
         <div class="btn-txt">ADD</div>
       </button>
-    </form>
+      <input class="datetime" type="datetime-local" v-model="newTodoDeadline"/>
+    </section>
     <ul is="TodoItem"
       class="todo-list"
       v-for="(todo, index) in todos"
@@ -20,19 +25,26 @@
       @remove="removeTodo(index)"
       @setTodoItemStatus="setTodoItemStatus(index)"
       :isDone="todo.isDone"
+      :newTodoDeadline="todo.deadline"
     ></ul>
   </div>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import TodoItem from './TodoItem.vue'
+import MyClock from './utils/MyClock.vue'
 export default Vue.extend({
   name: 'TodoList',
-  components: { TodoItem },
+  components: { TodoItem, MyClock },
   data() {
     return {
+      newTodoDeadline: null,
       newTodoMessage: '',
       counter: 1,
+      message: 'Hello',
+      images: {
+        bckgroundImg: require('../assets/digital200x675.jpeg')
+      }
     }
   },
   methods: {
@@ -40,7 +52,8 @@ export default Vue.extend({
       const newTodoItem = {
         id: this.counter++*10,
         isDone: false,
-        message: this.newTodoMessage
+        message: this.newTodoMessage,
+        deadline: this.newTodoDeadline
       };
       this.$store.dispatch('saveStoreTodo', newTodoItem);
       this.newTodoMessage = '';
@@ -54,49 +67,76 @@ export default Vue.extend({
     }
   },
   computed: {
-    todos: function() {
+    todos: function(): {}[] {
       return this.$store.getters.getTodos;
     }
-  }
+  },
 });
 </script>
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css2?family=Spartan:wght@700&display=swap');
 #myTodo {
-  width: 80%;
+  width: 95%;
   margin: 0 auto;
 }
-form {
+.form {
   position: relative;
+  height: 300px;
   background-color: #9798a0;
-  border-radius: 10px;
+  border-radius: 50px;
   display: flex;
-  flex-direction: column;
+  flex-direction : column;
   padding: 10px;
-  justify-content: center;
-  box-shadow: inset 0px 5px 6px #464444;
+  box-shadow: inset 0px 6px 6px #373535;
   border: 1px solid #9d9c9c;
-  input {
+  overflow: hidden;
+  header {
+    width: 70%;
+    justify-content: space-evenly;
+    position: relative;
+    display: flex;
+    margin: 0 auto;
+  }
+  textarea, input {
+    border: 1px solid #9d9c9c;
+    resize: none;
     outline: none;
+    overflow: auto;
     width: 70%;
     margin: 0 auto;
-    border-radius: 10px;
-    border: none;
+    border-radius: 15px;
     margin-bottom: 10px;
     font-size: 1.2rem;
     height: 50px;
     box-shadow: inset 0px 5px 6px rgb(70, 68, 68);
     color: #6a6969;
+    z-index: 1;
+    font-family: 'Roboto', sans-serif;
+    padding: 12px 20px;
+    overflow-wrap: break-word;
+    background-color: #ebf0db;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   label {
-    color: white;
     font-size: 1.5rem;
     font-weight: 500;
-    margin: 0 auto;
     margin-bottom: 5px;
     margin-top: 5px;
     font-family: 'Spartan', sans-serif;
     color: #ebf0db;
+    text-shadow: 1px .8px 2px rgba(0, 0, 0, 0.055);
+  }
+  img {
+    right: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 40%;
+  }
+  button {
+    z-index: 1;
   }
 }
 .icon-btn {
@@ -112,6 +152,7 @@ form {
   margin: 0 auto;
   cursor: pointer;
   box-shadow: 0 2px 10px #0000005e;
+  margin-bottom: 12px;
 }
 .add-btn:hover {
   width: 120px;
