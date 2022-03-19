@@ -1,30 +1,30 @@
 <template>
   <div class="clock">
-    <span v-text="clock.currentTime"></span>
+    <span v-text="myClock"></span>
   </div>
 </template>
 <script lang="ts">
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'Clock',
   data() {
     return {
-      clock: {
-        currentTime: '00:00:00',
-        clockInterval: 0
-      }
+      clockInterval: 0,
+      myClock: '00:00:00'
     }
   },
   methods: {
-    setCurrentTime() {
+    setCurrentTime: function(){
       const [hours, minutes, seconds] = [new Date().getHours(),new Date().getMinutes(), new Date().getSeconds()];
-      this.clock.currentTime = `${(hours < 10) ? '0' + hours : hours} : ${minutes < 10 ? "0" + minutes : minutes} : ${seconds < 10 ? "0" + seconds : seconds}`;
-      return this.clock.currentTime;
+      const currentTime = `${(hours < 10) ? '0' + hours : hours} : ${minutes < 10 ? "0" + minutes : minutes} : ${seconds < 10 ? "0" + seconds : seconds}`;
+      this.myClock = currentTime;
+      return this;
     },
   },
   mounted() {
-    this.clock.clockInterval = setInterval(() => this.setCurrentTime(), 1000)
-  },
-}
+    this.clockInterval = setInterval(() => this.setCurrentTime(), 1000)
+  }
+});
 </script>
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap');

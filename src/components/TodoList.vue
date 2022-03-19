@@ -4,7 +4,7 @@
       <img :src="images.bckgroundImg"/>
       <header>
         <label for="new-todo">TODO</label>
-        <MyClock/>
+        <MyClock />
       </header>
       <textarea
         v-model="newTodoMessage"

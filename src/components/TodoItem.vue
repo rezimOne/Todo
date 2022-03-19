@@ -1,10 +1,17 @@
 <template>
   <li class="todo-item">
     <span :style="{ textDecoration: textStyle }">{{ message }}</span>
-    <span>{{ newTodoDeadline }}</span>
+    <span>
+      days: {{todoDeadline.days}}
+      h: {{ todoDeadline.hours }}
+      min: {{ todoDeadline.minutes }}
+      sec: {{ todoDeadline.seconds }}
+    </span>
+   <div id="clockdiv"></div>
     <div class="functional-buttons">
       <button class="done-button" @click="$emit('setTodoItemStatus')"><p>v</p></button>
       <button class="remove-button" @click="$emit('remove')"><p>-</p></button>
+      <button @click="myFun"></button>
     </div>
   </li>
 </template>
@@ -25,14 +32,29 @@ export default Vue.extend({
   },
   data() {
     return {
-      superName: 'Michal'
+      timeInterval: 0
     }
   },
   computed: {
-    textStyle: function() {
+    textStyle: function(): string {
       return this.isDone ? 'line-through' : 'none'
     },
+    todoDeadline: function(): {} {
+      const today = new Date().getTime()
+      const deadline = new Date(Date.parse(this.newTodoDeadline)).getTime();
+      const timeLeft = deadline - today
+      const seconds = Math.floor((timeLeft / 1000) % 60);
+      const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
+      const hours = Math.floor((timeLeft / (1000*60*60)) % 24);
+      const days = Math.floor(timeLeft / (1000*60*60*24))
+      return { timeLeft, days, hours, minutes, seconds }
+    }
   },
+  methods: {
+    myFun: function() {
+      console.log('hello')
+    }
+  }
 });
 </script>
 <style lang="scss" scoped>
