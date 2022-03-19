@@ -2,12 +2,11 @@
   <li class="todo-item">
     <span :style="{ textDecoration: textStyle }">{{ message }}</span>
     <span>
-      days: {{todoDeadline.days}}
-      h: {{ todoDeadline.hours }}
-      min: {{ todoDeadline.minutes }}
-      sec: {{ todoDeadline.seconds }}
+      days: {{ myObj.days }}
+      hours: {{ myObj.hours }}
+      min: {{ myObj.minutes }}
+      sec: {{ myObj.seconds }}
     </span>
-   <div id="clockdiv"></div>
     <div class="functional-buttons">
       <button class="done-button" @click="$emit('setTodoItemStatus')"><p>v</p></button>
       <button class="remove-button" @click="$emit('remove')"><p>-</p></button>
@@ -32,28 +31,55 @@ export default Vue.extend({
   },
   data() {
     return {
-      timeInterval: 0
+      timeInterval: 0,
+      myObj: {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      }
     }
   },
   computed: {
     textStyle: function(): string {
       return this.isDone ? 'line-through' : 'none'
-    },
-    todoDeadline: function(): {} {
-      const today = new Date().getTime()
-      const deadline = new Date(Date.parse(this.newTodoDeadline)).getTime();
-      const timeLeft = deadline - today
-      const seconds = Math.floor((timeLeft / 1000) % 60);
-      const minutes = Math.floor((timeLeft / 1000 / 60) % 60);
-      const hours = Math.floor((timeLeft / (1000*60*60)) % 24);
-      const days = Math.floor(timeLeft / (1000*60*60*24))
-      return { timeLeft, days, hours, minutes, seconds }
     }
   },
   methods: {
     myFun: function() {
       console.log('hello')
     }
+  },
+  created(){
+    console.log('created');
+    if (this.newTodoDeadline) {
+      this.timeInterval = setInterval(() => {
+        let today = new Date().getTime()
+        let deadline = new Date(Date.parse(this.newTodoDeadline)).getTime();
+        let timeLeft = deadline - today;
+        if (timeLeft < 0 || this.isDone) {
+          clearInterval(this.timeInterval);
+          this.myObj = { days: 0, hours: 0, minutes: 0, seconds: 0 }
+          console.log('interval clear');
+        } else {
+          this.myObj.seconds = Math.floor((timeLeft / 1000) % 60);
+          this.myObj.minutes = Math.floor((timeLeft / 1000 / 60) % 60);
+          this.myObj.hours = Math.floor((timeLeft / (1000*60*60)) % 24);
+          this.myObj.days = Math.floor(timeLeft / (1000*60*60*24));
+          return this;
+        }
+      }, 1000);
+    }
+  },
+  beforeDestroy(){
+    clearInterval(this.timeInterval)
+    console.log('beforeDestroyed', 'interval clear')
+  },
+  destroyed(){
+    console.log('destroyed')
+  },
+  updated(){
+    console.log('updated')
   }
 });
 </script>
@@ -69,6 +95,7 @@ export default Vue.extend({
   padding: 10px 5px;
   box-shadow: 0 2px 5px #888888;
   min-height: 30px;
+  font-size: 0.8rem;
   &:hover {
     background-color: #e0e4d2;
   }
@@ -106,6 +133,6 @@ span {
   position: relative;
   margin-left: 5px;
   color: #6a6969;
-  font-weight: 500;
+  font-weight: 600;
 }
 </style>

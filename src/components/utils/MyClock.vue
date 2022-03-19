@@ -39,6 +39,6 @@ export default Vue.extend({
   font-size: .9rem;
   text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.151);
   position: relative;
-  left: 50px;
+  left: 6%;
 }
 </style>

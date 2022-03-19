@@ -80,9 +80,9 @@ export default Vue.extend({
 }
 .form {
   position: relative;
-  height: 300px;
+  max-height: 200px;
   background-color: #9798a0;
-  border-radius: 50px;
+  border-radius: 40px;
   display: flex;
   flex-direction : column;
   padding: 10px;
@@ -90,11 +90,18 @@ export default Vue.extend({
   border: 1px solid #9d9c9c;
   overflow: hidden;
   header {
-    width: 70%;
-    justify-content: space-evenly;
     position: relative;
     display: flex;
+    width: 70%;
     margin: 0 auto;
+    justify-content: space-between;
+    label {
+      font-size: 1.2rem;
+      font-weight: 500;
+      font-family: 'Spartan', sans-serif;
+      color: #ebf0db;
+      text-shadow: 1px .8px 2px rgba(0, 0, 0, 0.055);
+    }
   }
   textarea, input {
     border: 1px solid #9d9c9c;
@@ -105,7 +112,7 @@ export default Vue.extend({
     margin: 0 auto;
     border-radius: 15px;
     margin-bottom: 10px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     height: 50px;
     box-shadow: inset 0px 5px 6px rgb(70, 68, 68);
     color: #6a6969;
@@ -114,18 +121,6 @@ export default Vue.extend({
     padding: 12px 20px;
     overflow-wrap: break-word;
     background-color: #ebf0db;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  label {
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    font-family: 'Spartan', sans-serif;
-    color: #ebf0db;
-    text-shadow: 1px .8px 2px rgba(0, 0, 0, 0.055);
   }
   img {
     right: 0;
