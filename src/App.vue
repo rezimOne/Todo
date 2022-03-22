@@ -20,18 +20,18 @@ export default Vue.extend({
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Spartan:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 #app {
     font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .components {
-  // background-color: rgb(29, 30, 41);
-   background-color: rgb(241, 227, 208);
-  height: 90vh;
+  background-color: rgb(29, 30, 41);
+  // background-color: rgb(241, 227, 208);
   margin: 0 auto;
-  top: 30px;
   padding: 15px;
   position: relative;
+  height: 100vh;
 }
 </style>

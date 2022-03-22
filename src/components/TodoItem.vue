@@ -251,5 +251,7 @@ span {
   margin-left: 5px;
   color: #6a6969;
   font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
 }
 </style>
